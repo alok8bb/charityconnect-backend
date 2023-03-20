@@ -14,12 +14,14 @@ async function main() {
 		return console.error(err);
 	}
 
-	app.use(cors);
+	app.use(cors());
 	app.use(express.json());
+
+	app.get("/", (req, res) => {
+		res.send("Hei");
+	});
 	app.use("/user", UserRouter);
 
-	app.use("/", (req, res) => {
-		res.send("hi");});
 	app.use((err, req, res, next) => {
 		if (res.headersSent) {
 			return next(err);
