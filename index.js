@@ -8,7 +8,7 @@ const PORT = 8080;
 
 async function main() {
 	try {
-		await mongoose.connect("mongodb://127.0.0.1:27017/ngo");
+		await mongoose.connect("mongodb+srv://alok8bb:10bK105@cluster0.m0rhxon.mongodb.net/?retryWrites=true&w=majority");
 		console.log("[INFO] Database connected successfully!");
 	} catch (err) {
 		return console.error(err);
