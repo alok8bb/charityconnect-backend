@@ -2,13 +2,20 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const cors = require('cors');
-const UserRouter = require("./routes/auth/user");
 
-const PORT = 8080;
+const UserRouter = require("./routes/user");
+const OrganizationRouter = require('./routes/organization');
+const AdminRouter = require("./routes/admin");
+
+const AdminTokenVerification = require("./middlewares/auth");
+
+require('dotenv').config();
+const PORT = process.env.PORT || 8080;
+const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/CharityConnect";
 
 async function main() {
 	try {
-		await mongoose.connect("mongodb+srv://alok8bb:10bK105@cluster0.m0rhxon.mongodb.net/?retryWrites=true&w=majority");
+		await mongoose.connect(MONGO_URI);
 		console.log("[INFO] Database connected successfully!");
 	} catch (err) {
 		return console.error(err);
@@ -17,12 +24,11 @@ async function main() {
 	app.use(cors());
 	app.use(express.json());
 
-	app.get("/", (req, res) => {
-		res.send("Hei");
-	});
 	app.use("/user", UserRouter);
+	app.use("/org", OrganizationRouter);
+	app.use("/admin", AdminTokenVerification,AdminRouter);
 
-	app.use((err, req, res, next) => {
+	app.use((err, _, res, next) => {
 		if (res.headersSent) {
 			return next(err);
 		}

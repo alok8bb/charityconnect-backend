@@ -10,11 +10,15 @@ const OrganizationSchema = new mongoose.Schema({
         required: true
     },
     pincode: {
-        type: Number,
+        type: String,
         required: true
     },
+    email: {
+        type: String,
+        requierd: true
+    },
     unique_id: {
-        type: Number,
+        type: String,
         required: false
     },
     type: {
@@ -32,6 +36,10 @@ const OrganizationSchema = new mongoose.Schema({
     address: {
         type: String,
         required: true
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
     }
 });
 
